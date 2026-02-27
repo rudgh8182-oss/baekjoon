@@ -1,30 +1,46 @@
+# from collections import deque
+# S, B = map(int, input().split())
+
+# def bfs(S, B):
+#     MAX = 100001
+#     visited = [-1] * MAX
+
+#     queue = deque([S])
+#     visited[S] = 0
+
+#     while queue:
+#         count = queue.popleft()
+
+#         if count == B:
+#             return visited[count]
+        
+#         for i in (count - 1, count + 1, count * 2):
+#             if 0 <= i < MAX and visited[i] == -1:
+#                 visited[i] = visited[count] + 1
+#                 queue.append(i)
+        
+# print(bfs(S, B))
+
+def bfs(S, B):
+    MAX = 100001
+    visited = [-1] * MAX
+
+    queue = [S]
+    visited[S] = 0
+
+    head = 0
+
+    while queue:
+        count = queue[head]
+        head += 1
+
+        if count == B:
+            return visited[count]
+        
+        for i in (count - 1, count + 1, count * 2):
+            if 0 <= i < MAX and visited[i] == -1:
+                visited[i] = visited[count] + 1
+                queue.append(i)
+
 S, B = map(int, input().split())
-
-step = [-1, 1, 2]
-
-min_cnt = 10000
-cnt = 0
-def dfs(S):
-    global cnt
-    if S == B:
-        if min_cnt > cnt:
-            min_cnt = cnt
-            cnt = 0
-        return
- 
-    for i in range(3):
-        if i == 2:
-            if S * 2 < B * 2:
-                S = S * step[i]
-                cnt += 1
-                dfs(S)
-                S = S // step[i]
-            
-        else:
-            S = S + step[i]
-            cnt += 1
-            dfs(S)
-            S = S - step[i]
-
-dfs(0)
-print(min_cnt)
+print(bfs(S, B))
